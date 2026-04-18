@@ -19,7 +19,18 @@ import {
   panikExecutorAbi,
   toAddressSet,
 } from "./lib/contracts";
-import { ArrowRight, RefreshCw, Circle, Lock, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  RefreshCw,
+  Circle,
+  Lock,
+  Zap,
+  ShieldCheck,
+  ShieldAlert,
+  Layers,
+  Droplets,
+  ChartPie,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -106,6 +117,7 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitProgress, setSubmitProgress] = useState<string | null>(null);
   const [autoSubmitOnScreen3, setAutoSubmitOnScreen3] = useState(false);
+  const [lastScannedAt, setLastScannedAt] = useState<string | null>(null);
   const [txSummary, setTxSummary] = useState<TxSummary | null>(null);
   const [receiptInfo, setReceiptInfo] = useState<{
     blockNumber: bigint;
@@ -367,6 +379,7 @@ function App() {
       setAavePositions([]);
       setUniswapPositions([]);
       setApprovalTokens([]);
+      setLastScannedAt(null);
       return;
     }
     setIsLoadingEligibility(true);
@@ -394,6 +407,7 @@ function App() {
       .join(" | ");
     setErrorMessage(mergedErrors.length > 0 ? mergedErrors : null);
     setHasScanned(true);
+    setLastScannedAt(new Date().toISOString());
     setIsLoadingEligibility(false);
   }, [address, fetchUniswapPositions, isConnected, isEoa, publicClient, scanAavePositions, wrongChain]);
 
@@ -403,6 +417,7 @@ function App() {
       setUniswapPositions([]);
       setSelected(new Set());
       setHasScanned(false);
+      setLastScannedAt(null);
       setSubmitProgress(null);
       setAutoSubmitOnScreen3(false);
       setApprovalTokens([]);
@@ -505,6 +520,55 @@ function App() {
     () => dashboardRows.filter((row) => row.status === "locked").length,
     [dashboardRows]
   );
+  const atRiskCount = useMemo(
+    () => dashboardRows.filter((row) => row.healthTone === "warning").length,
+    [dashboardRows]
+  );
+  const uniswapInRangeCount = useMemo(
+    () => uniswapPositions.filter((position) => position.inRange).length,
+    [uniswapPositions]
+  );
+  const uniswapOutOfRangeCount = useMemo(
+    () => uniswapPositions.filter((position) => !position.inRange).length,
+    [uniswapPositions]
+  );
+  const pendingFeeCount = useMemo(
+    () =>
+      uniswapPositions.filter(
+        (position) => position.tokensOwed0 > 0n || position.tokensOwed1 > 0n
+      ).length,
+    [uniswapPositions]
+  );
+  const aaveValueUsd = useMemo(
+    () =>
+      dashboardRows
+        .filter((row) => row.protocolLabel === "Aave")
+        .reduce((sum, row) => sum + (Number.isFinite(row.valueUsd) ? row.valueUsd : 0), 0),
+    [dashboardRows]
+  );
+  const uniswapValueUsd = useMemo(
+    () =>
+      dashboardRows
+        .filter((row) => row.protocolLabel === "Uniswap")
+        .reduce((sum, row) => sum + (Number.isFinite(row.valueUsd) ? row.valueUsd : 0), 0),
+    [dashboardRows]
+  );
+  const aaveSharePercent = useMemo(() => {
+    const total = aaveValueUsd + uniswapValueUsd;
+    if (total <= 0) return 50;
+    return Math.max(0, Math.min(100, (aaveValueUsd / total) * 100));
+  }, [aaveValueUsd, uniswapValueUsd]);
+  const uniswapSharePercent = 100 - aaveSharePercent;
+  const exitReadyPercent = useMemo(() => {
+    if (positions.length === 0) return 0;
+    return Math.round((eligiblePositions.length / positions.length) * 100);
+  }, [eligiblePositions.length, positions.length]);
+  const lastScannedLabel = useMemo(() => {
+    if (!lastScannedAt) return "Not scanned";
+    const parsed = new Date(lastScannedAt);
+    if (Number.isNaN(parsed.getTime())) return "Not scanned";
+    return parsed.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  }, [lastScannedAt]);
 
   const selectedPositions = useMemo(
     () => positions.filter((position) => selected.has(position.id)),
@@ -544,6 +608,7 @@ function App() {
     setEntryPoint(null);
     setSelected(new Set());
     setHasScanned(false);
+    setLastScannedAt(null);
     setAavePositions([]);
     setUniswapPositions([]);
     setIsSubmitting(false);
@@ -727,7 +792,85 @@ function App() {
 
       {/* ── Screen 1: Dashboard ── */}
       {screen === "screen1" && (
-        <section className="dashboard-grid">
+        <section className="dashboard-surface">
+          <div className="market-strip">
+            <div className="market-strip-head">
+              <div>
+                <h2 className="market-strip-title">Portfolio Overview</h2>
+                <div className="market-strip-worth">
+                  <span>Net worth</span>
+                  <strong>{formatUsd(totalPortfolioValue)}</strong>
+                  <span>Last scan {lastScannedLabel}</span>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void refreshEligibility()}
+                disabled={!canScanPositions || isLoadingEligibility}
+                className="market-strip-button"
+              >
+                <RefreshCw className="w-4 h-4" />
+                {isLoadingEligibility ? "Scanning..." : hasScanned ? "Refresh Market" : "Scan Positions"}
+              </Button>
+            </div>
+
+            <div className="market-kpi-grid">
+              <Card className="market-kpi-card">
+                <CardContent className="market-kpi-content">
+                  <div className="market-kpi-title">
+                    <ShieldCheck className="market-kpi-icon text-green-500" />
+                    Exit ready
+                  </div>
+                  <div className="market-kpi-value">{eligiblePositions.length}</div>
+                  <div className="market-kpi-sub">
+                    {positions.length > 0 ? `${exitReadyPercent}% of scanned` : "Run scan"}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="market-kpi-card">
+                <CardContent className="market-kpi-content">
+                  <div className="market-kpi-title">
+                    <ShieldAlert className="market-kpi-icon text-amber-500" />
+                    Blocked
+                  </div>
+                  <div className="market-kpi-value">{lockedCount}</div>
+                  <div className="market-kpi-sub">
+                    {positions.length > 0 ? `${positions.length - lockedCount} unlockable` : "No data"}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="market-kpi-card">
+                <CardContent className="market-kpi-content">
+                  <div className="market-kpi-title">
+                    <Zap className="market-kpi-icon text-amber-500" />
+                    At risk
+                  </div>
+                  <div className="market-kpi-value">{atRiskCount}</div>
+                  <div className="market-kpi-sub">Aave warning health</div>
+                </CardContent>
+              </Card>
+
+              <Card className="market-kpi-card">
+                <CardContent className="market-kpi-content">
+                  <div className="market-kpi-title">
+                    <Layers className="market-kpi-icon text-blue-400" />
+                    LP in range
+                  </div>
+                  <div className="market-kpi-value">
+                    {uniswapPositions.length > 0
+                      ? `${uniswapInRangeCount}/${uniswapPositions.length}`
+                      : "0"}
+                  </div>
+                  <div className="market-kpi-sub">{uniswapOutOfRangeCount} out of range</div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <div className="dashboard-grid">
 
           {/* ── Positions Card ── */}
           <Card className="positions-card">
@@ -736,27 +879,9 @@ function App() {
               {/* Header */}
               <div className="positions-head">
                 <h2 className="positions-title">Positions</h2>
-                {hasScanned ? (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => void refreshEligibility()}
-                    disabled={!canScanPositions || isLoadingEligibility}
-                    className="rescan-icon-btn"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => void refreshEligibility()}
-                    disabled={!canScanPositions || isLoadingEligibility}
-                    className="scan-text-btn"
-                  >
-                    {isLoadingEligibility ? "Scanning..." : "Scan Positions"}
-                  </Button>
-                )}
+                <span className="positions-subtitle">
+                  {hasScanned ? `${positions.length} positions scanned` : "Run scan to load positions"}
+                </span>
               </div>
 
               {/* Loading */}
@@ -890,15 +1015,33 @@ function App() {
 
             <Separator className="rail-divider" />
 
-            <div className="rail-stat-row">
-              <span>Eligible positions</span>
-              <strong>{eligiblePositions.length}</strong>
+            <div className="rail-mix-head">
+              <Badge variant="outline" className="rail-mix-badge">
+                <ChartPie className="w-3.5 h-3.5" />
+                Market Mix
+              </Badge>
             </div>
             <div className="rail-stat-row">
-              <span>Locked positions</span>
-              <strong className="text-green-500">{lockedCount}</strong>
+              <span>Aave exposure</span>
+              <strong>{formatUsd(aaveValueUsd)}</strong>
+            </div>
+            <div className="rail-stat-row">
+              <span>Uniswap exposure</span>
+              <strong>{formatUsd(uniswapValueUsd)}</strong>
+            </div>
+            <div className="rail-mix-track" role="presentation" aria-hidden="true">
+              <span className="rail-mix-segment rail-mix-segment-aave" style={{ width: `${aaveSharePercent}%` }} />
+              <span className="rail-mix-segment rail-mix-segment-uni" style={{ width: `${uniswapSharePercent}%` }} />
+            </div>
+            <div className="rail-stat-row">
+              <span className="rail-inline-label">
+                <Droplets className="w-3.5 h-3.5" />
+                Fees pending
+              </span>
+              <strong>{pendingFeeCount}</strong>
             </div>
           </aside>
+          </div>
         </section>
       )}
 

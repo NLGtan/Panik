@@ -32,7 +32,7 @@ export function WalletPanel(props: WalletPanelProps) {
 
   return (
     <>
-      <header className="w-full flex justify-between items-center h-24 px-9 pt-4">
+      <header className="wallet-sticky-header w-full flex justify-between items-center h-24 px-9 pt-4">
         <span className="text-[22px] font-semibold tracking-[0.18em] text-white leading-none">
           PANIK
         </span>
@@ -61,15 +61,16 @@ export function WalletPanel(props: WalletPanelProps) {
               
               <div className="flex items-center h-[44px] px-[18px] rounded-full border border-[#333] bg-[#111]">
                 <span className="text-[15px] font-medium text-gray-200 font-mono tracking-tight">
-                  {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "—"}
+                  {address ? shortAddress(address) : "—"}
                 </span>
               </div>
 
               <button
                 onClick={onDisconnect}
+                disabled={disconnectLoading}
                 className="flex items-center justify-center h-[44px] px-[20px] rounded-full font-semibold text-[15px] tracking-tight bg-transparent text-gray-400 hover:text-white hover:bg-[#222] border border-transparent hover:border-[#333] transition-colors"
                >
-                Disconnect
+                {disconnectLoading ? "Disconnecting..." : "Disconnect"}
               </button>
             </div>
           )}

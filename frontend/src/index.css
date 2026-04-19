@@ -42,6 +42,38 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.app-glow-1 {
+  position: absolute;
+  top: -150px;
+  left: -150px;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(232, 124, 42, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-glow-2 {
+  position: absolute;
+  top: 30%;
+  right: -250px;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(232, 124, 42, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-glow-3 {
+  position: absolute;
+  bottom: -200px;
+  left: 20%;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(232, 124, 42, 0.10) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 a {
   color: var(--text-secondary);
@@ -76,6 +108,7 @@ a:hover { color: var(--text); }
   flex-direction: column;
   min-height: 100vh;
 }
+
 
 /* ── Dashboard layout ── */
 .dashboard-surface {
@@ -917,6 +950,7 @@ button:disabled { opacity: 0.35; cursor: not-allowed; }
 
 /* ── Responsive ── */
 @media (max-width: 1100px) {
+
   .dashboard-surface {
     margin-top: 20px;
   }
@@ -948,6 +982,7 @@ button:disabled { opacity: 0.35; cursor: not-allowed; }
 }
 
 @media (max-width: 640px) {
+
   .market-kpi-grid {
     grid-template-columns: 1fr;
   }

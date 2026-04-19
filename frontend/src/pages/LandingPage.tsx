@@ -110,10 +110,10 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "How does atomic execution protect me?",
     answer:
-      "PAN!K executes repayment, unwinds, and swaps in one transaction. If any step fails, the whole transaction reverts so your state stays unchanged.",
+      "PANIK executes repayment, unwinds, and swaps in one transaction. If any step fails, the whole transaction reverts so your state stays unchanged.",
   },
   {
-    question: "What protocols does PAN!K support?",
+    question: "What protocols does PANIK support?",
     answer:
       "This build focuses on Aave V3 positions and Uniswap V3 LP positions on Base Sepolia, matching the current simulator workflow.",
   },
@@ -125,12 +125,12 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "What happens if I have locked or vested positions?",
     answer:
-      "Locked or ineligible positions are marked during scan and excluded from execution. PAN!K only submits what can be exited safely.",
+      "Locked or ineligible positions are marked during scan and excluded from execution. PANIK only submits what can be exited safely.",
   },
   {
     question: "How are gas fees calculated?",
     answer:
-      "Gas is estimated before you confirm based on current network conditions. PAN!K bundles all steps into one transaction, so you pay one gas fee rather than multiple separate ones.",
+      "Gas is estimated before you confirm based on current network conditions. PANIK bundles all steps into one transaction, so you pay one gas fee rather than multiple separate ones.",
   },
   {
     question: "What if the market moves between preview and execution?",
@@ -138,9 +138,9 @@ const FAQ_ITEMS: FaqItem[] = [
       "Final execution still runs contract checks at submit time. If conditions break assumptions, the transaction reverts to prevent partial outcomes.",
   },
   {
-    question: "Does PAN!K hold my assets at any point?",
+    question: "Does PANIK hold my assets at any point?",
     answer:
-      "No. PAN!K is non-custodial. You sign transactions from your wallet and maintain control through the entire process.",
+      "No. PANIK is non-custodial. You sign transactions from your wallet and maintain control through the entire process.",
   },
 ];
 
@@ -268,11 +268,11 @@ export function LandingPage({
             <div className="lp-hero-actions">
               {isConnected ? (
                 <button className="lp-btn lp-btn-primary" onClick={onLaunchApp}>
-                  Use Pan!k &nbsp;›
+                  Use Panik &nbsp;›
                 </button>
               ) : (
                 <button className="lp-btn lp-btn-primary" onClick={onUsePanik} disabled={isConnecting}>
-                  {isConnecting ? "Connecting…" : "Use Pan!k \u00a0›"}
+                  {isConnecting ? "Connecting…" : "Use Panik \u00a0›"}
                 </button>
               )}
               <button className="lp-btn lp-btn-secondary" onClick={() => scrollToSection("how-it-works")}>
@@ -518,7 +518,7 @@ export function LandingPage({
           </div>
           <div className="lp-hero-actions">
             <button className="lp-btn lp-btn-primary" onClick={onUsePanik}>
-              Use Pan!k &nbsp;›
+              Use Panik &nbsp;›
             </button>
             <button className="lp-btn lp-btn-secondary" onClick={() => scrollToSection("faq")}>
               Read the Docs
@@ -531,7 +531,7 @@ export function LandingPage({
           <div className="lp-section-head" data-reveal>
             <p className="lp-overline">Common Questions</p>
             <h2>Common Questions</h2>
-            <p>Clear answers about how PAN!K works and what to expect during execution.</p>
+            <p>Clear answers about how PANIK works and what to expect during execution.</p>
           </div>
 
           <div className="lp-faq-list" data-reveal>

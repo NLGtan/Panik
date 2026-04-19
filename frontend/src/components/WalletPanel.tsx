@@ -42,11 +42,11 @@ export function WalletPanel(props: WalletPanelProps) {
             to={logoHref}
             className="flex items-center transition-opacity hover:opacity-90"
           >
-            <img src={LogoIcon} alt="Panik" className="h-[20px] w-auto object-contain" />
+            <img src={LogoIcon} alt="Panik" className="h-[28px] w-auto object-contain" />
           </Link>
         ) : (
           <div className="flex items-center">
-            <img src={LogoIcon} alt="Panik" className="h-[20px] w-auto object-contain" />
+            <img src={LogoIcon} alt="Panik" className="h-[28px] w-auto object-contain" />
           </div>
         )}
 

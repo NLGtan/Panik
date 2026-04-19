@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { shortAddress } from "../lib/format";
 import "./LandingPage.css";
 
 import aaveLogo      from "../assets/brands/aave.png";
@@ -14,6 +15,11 @@ type SectionId = "product" | "how-it-works" | "features" | "pricing" | "faq";
 
 interface LandingPageProps {
   onUsePanik: () => void;
+  isConnecting?: boolean;
+  isConnected?: boolean;
+  address?: string;
+  onDisconnect?: () => void;
+  onLaunchApp?: () => void;
 }
 
 interface CrisisStat {
@@ -153,7 +159,14 @@ function useReducedMotionPreference() {
   return prefersReducedMotion;
 }
 
-export function LandingPage({ onUsePanik }: LandingPageProps) {
+export function LandingPage({
+  onUsePanik,
+  isConnecting,
+  isConnected,
+  address,
+  onDisconnect,
+  onLaunchApp,
+}: LandingPageProps) {
   const prefersReducedMotion = useReducedMotionPreference();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -213,9 +226,26 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
               </button>
             ))}
           </nav>
-          <button className="lp-btn lp-btn-connect" onClick={onUsePanik}>
-            Connect wallet
-          </button>
+          {isConnected ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center h-[38px] px-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
+                <span className="text-[14px] font-medium text-white/90 font-mono tracking-tight">
+                  {address ? shortAddress(address) : "—"}
+                </span>
+              </div>
+              <button
+                onClick={onDisconnect}
+                className="flex items-center justify-center h-[38px] px-[16px] rounded-full font-medium text-[14px] tracking-tight bg-transparent text-white/50 hover:text-white hover:bg-white/10 border border-transparent transition-colors"
+                title="Disconnect Wallet"
+              >
+                Disconnect
+              </button>
+            </div>
+          ) : (
+            <button className="lp-btn lp-btn-connect" onClick={onUsePanik} disabled={isConnecting}>
+              {isConnecting ? "Connecting…" : "Connect wallet"}
+            </button>
+          )}
         </div>
       </header>
 
@@ -236,9 +266,15 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
               conditions demand speed.
             </p>
             <div className="lp-hero-actions">
-              <button className="lp-btn lp-btn-primary" onClick={onUsePanik}>
-                Use Pan!k &nbsp;›
-              </button>
+              {isConnected ? (
+                <button className="lp-btn lp-btn-primary" onClick={onLaunchApp}>
+                  Use Pan!k &nbsp;›
+                </button>
+              ) : (
+                <button className="lp-btn lp-btn-primary" onClick={onUsePanik} disabled={isConnecting}>
+                  {isConnecting ? "Connecting…" : "Use Pan!k \u00a0›"}
+                </button>
+              )}
               <button className="lp-btn lp-btn-secondary" onClick={() => scrollToSection("how-it-works")}>
                 See How It Works
               </button>

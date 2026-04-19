@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatUnits } from "viem";
 import {
   useAccount,
@@ -103,6 +104,7 @@ function CoreApp() {
   const { connect, connectors, isPending: isConnecting } = useConnect();
   const { disconnectAsync, isPending: isDisconnecting } = useDisconnect();
   const { switchChain } = useSwitchChain();
+  const navigate = useNavigate();
   const { fetchUniswapPositions } = useUniswapPositions();
 
   const [screen, setScreen] = useState<ScreenKey>("screen1");
@@ -671,12 +673,9 @@ function CoreApp() {
     const selectedAaveAssets = willExitPositions
       .filter(isAavePosition)
       .map((p) => p.asset.address);
-    const selectedUniswapTokenIds = willExitPositions
-      .filter(isUniswapPosition)
-      .map((p) => p.tokenId);
 
-    if (selectedAaveAssets.length === 0 && selectedUniswapTokenIds.length === 0) {
-      setErrorMessage("No eligible positions selected.");
+    if (selectedAaveAssets.length === 0) {
+      setErrorMessage("No eligible Aave positions selected.");
       return;
     }
 
@@ -690,7 +689,7 @@ function CoreApp() {
         address: appConfig.panikExecutor,
         abi: panikExecutorAbi,
         functionName: "atomicExit",
-        args: [selectedAaveAssets, selectedUniswapTokenIds],
+        args: [selectedAaveAssets],
         account: address,
       });
 
@@ -698,7 +697,7 @@ function CoreApp() {
         address: appConfig.panikExecutor,
         abi: panikExecutorAbi,
         functionName: "atomicExit",
-        args: [selectedAaveAssets, selectedUniswapTokenIds],
+        args: [selectedAaveAssets],
         account: address,
       });
 
@@ -709,7 +708,6 @@ function CoreApp() {
       setTxSummary({
         hash,
         selectedAaveAssets,
-        selectedUniswapTokenIds,
         functionName: "atomicExit",
         gasEstimate: adjustedGas,
       });
@@ -753,11 +751,8 @@ function CoreApp() {
         isEoa={isEoa}
         logoHref="/"
         onConnect={() => {
-          if (connectors.length === 0) {
-            setErrorMessage("No wallet connector found.");
-            return;
-          }
-          connect({ connector: connectors[0] });
+          // Redirect to landing page — that's the sole connection point
+          navigate("/");
         }}
         onDisconnect={() => {
           void (async () => {
@@ -772,6 +767,7 @@ function CoreApp() {
               );
             } finally {
               resetToScreen1();
+              navigate("/");
             }
           })();
         }}
@@ -1207,16 +1203,12 @@ function CoreApp() {
           <div className="summary-row">
             <span>Positions exited</span>
             <strong>
-              {txSummary.selectedAaveAssets.length + txSummary.selectedUniswapTokenIds.length}
+              {txSummary.selectedAaveAssets.length}
             </strong>
           </div>
           <div className="summary-row">
             <span>Aave assets</span>
             <strong>{txSummary.selectedAaveAssets.length}</strong>
-          </div>
-          <div className="summary-row">
-            <span>Uniswap LPs</span>
-            <strong>{txSummary.selectedUniswapTokenIds.length}</strong>
           </div>
           <div className="summary-row">
             <span>Gas (estimated)</span>

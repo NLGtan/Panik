@@ -1,6 +1,89 @@
 import type { Abi } from "viem";
 
 export const panikExecutorAbi = [
+  // --- Custom errors (needed for viem to decode reverts) ---
+  { type: "error", name: "CallerNotEOA", inputs: [] },
+  {
+    type: "error",
+    name: "DuplicateAsset",
+    inputs: [{ name: "asset", type: "address" }],
+  },
+  {
+    type: "error",
+    name: "InsufficientDebtAssetBalance",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "requiredAmount", type: "uint256" },
+      { name: "availableAmount", type: "uint256" },
+    ],
+  },
+  {
+    type: "error",
+    name: "InvalidMinOutBps",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "minOutBps", type: "uint16" },
+    ],
+  },
+  {
+    type: "error",
+    name: "InvalidOracleDecimals",
+    inputs: [{ name: "decimals", type: "uint8" }],
+  },
+  {
+    type: "error",
+    name: "InvalidRepayAmount",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "attemptedAmount", type: "uint256" },
+      { name: "repaidAmount", type: "uint256" },
+    ],
+  },
+  {
+    type: "error",
+    name: "InvalidTrackedAsset",
+    inputs: [{ name: "asset", type: "address" }],
+  },
+  { type: "error", name: "LengthMismatch", inputs: [] },
+  {
+    type: "error",
+    name: "LockedPositions",
+    inputs: [{ name: "lockedAssets", type: "address[]" }],
+  },
+  {
+    type: "error",
+    name: "MissingAToken",
+    inputs: [{ name: "asset", type: "address" }],
+  },
+  {
+    type: "error",
+    name: "MissingSwapRoute",
+    inputs: [{ name: "asset", type: "address" }],
+  },
+  {
+    type: "error",
+    name: "PriceUnavailable",
+    inputs: [{ name: "asset", type: "address" }],
+  },
+  { type: "error", name: "ReentrancyGuardReentrantCall", inputs: [] },
+  {
+    type: "error",
+    name: "SafeERC20FailedOperation",
+    inputs: [{ name: "token", type: "address" }],
+  },
+  // --- Events ---
+  {
+    type: "event",
+    name: "ExitCompleted",
+    anonymous: false,
+    inputs: [
+      { indexed: false, name: "user", type: "address" },
+      { indexed: false, name: "usdcReceived", type: "uint256" },
+      { indexed: false, name: "closed", type: "address[]" },
+      { indexed: false, name: "locked", type: "address[]" },
+    ],
+  },
+  // --- Functions ---
   {
     type: "function",
     stateMutability: "view",
@@ -39,8 +122,7 @@ export const panikExecutorAbi = [
     stateMutability: "nonpayable",
     name: "atomicExit",
     inputs: [
-      { name: "aaveAssets", type: "address[]" },
-      { name: "uniswapTokenIds", type: "uint256[]" },
+      { name: "assets", type: "address[]" },
     ],
     outputs: [],
   },
@@ -49,9 +131,8 @@ export const panikExecutorAbi = [
     stateMutability: "nonpayable",
     name: "partialExit",
     inputs: [
-      { name: "aaveAssets", type: "address[]" },
+      { name: "assets", type: "address[]" },
       { name: "amounts", type: "uint256[]" },
-      { name: "uniswapTokenIds", type: "uint256[]" },
     ],
     outputs: [],
   },

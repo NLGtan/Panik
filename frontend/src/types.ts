@@ -74,7 +74,6 @@ export function isUniswapPosition(p: PositionView): p is UniswapPositionView {
 export interface TxSummary {
   hash: `0x${string}`;
   selectedAaveAssets: string[];
-  selectedUniswapTokenIds: bigint[];
   functionName: "atomicExit";
   gasEstimate: bigint;
 }

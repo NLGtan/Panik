@@ -101,7 +101,7 @@ function CoreApp() {
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId: appConfig.chainId });
   const { data: walletClient } = useWalletClient({ chainId: appConfig.chainId });
-  const { connect, connectors, isPending: isConnecting } = useConnect();
+  const { isPending: isConnecting } = useConnect();
   const { disconnectAsync, isPending: isDisconnecting } = useDisconnect();
   const { switchChain } = useSwitchChain();
   const navigate = useNavigate();

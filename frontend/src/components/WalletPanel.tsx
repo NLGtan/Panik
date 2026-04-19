@@ -1,5 +1,6 @@
 import { shortAddress } from "../lib/format";
 import { Link } from "react-router-dom";
+import LogoIcon from "../assets/icon/logo.png";
 
 interface WalletPanelProps {
   connected: boolean;
@@ -39,14 +40,14 @@ export function WalletPanel(props: WalletPanelProps) {
         {logoHref ? (
           <Link
             to={logoHref}
-            className="text-[22px] font-semibold tracking-[0.18em] text-white leading-none"
+            className="flex items-center transition-opacity hover:opacity-90"
           >
-            PANIK
+            <img src={LogoIcon} alt="Panik" className="h-[20px] w-auto object-contain" />
           </Link>
         ) : (
-          <span className="text-[22px] font-semibold tracking-[0.18em] text-white leading-none">
-            PANIK
-          </span>
+          <div className="flex items-center">
+            <img src={LogoIcon} alt="Panik" className="h-[20px] w-auto object-contain" />
+          </div>
         )}
 
         <div className="flex items-center gap-2">

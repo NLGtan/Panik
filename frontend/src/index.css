@@ -1,6 +1,21 @@
-@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Azedo';
+  src: url('./assets/fonts/Azedo-Bold.otf') format('opentype');
+  font-weight: bold;
+  ascent-override: 75%;
+  descent-override: 0%;
+  line-gap-override: 0%;
+  /* Only use Azedo for Latin letters — it lacks glyphs for numbers, punctuation, and symbols */
+  unicode-range: U+0041-005A, U+0061-007A;
+}
+
+.font-azedo {
+  font-family: 'Azedo', 'Barlow Condensed', sans-serif;
+}
 
 /* ═══════════════════════════════════════════════
    PANIK — Design System
@@ -31,6 +46,15 @@
 
 html, body, #root {
   min-height: 100vh;
+}
+
+.core-app-root h1, .core-app-root h2, .core-app-root h3, .core-app-root h4, .core-app-root h5, .core-app-root h6 {
+  font-family: 'Azedo', 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 body {
@@ -610,7 +634,7 @@ a:hover { color: var(--text); }
 }
 
 /* ── Buttons (legacy screens) ── */
-button {
+.core-app-root button {
   font-family: var(--font);
   font-size: 14px;
   font-weight: 500;

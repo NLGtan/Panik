@@ -741,7 +741,7 @@ function CoreApp() {
   }, [autoSubmitOnScreen3, isSubmitting, screen, submitExit, willExitPositions.length]);
 
   return (
-    <div className="flex flex-col min-h-screen w-full relative overflow-x-hidden">
+    <div className="core-app-root flex flex-col min-h-screen w-full relative overflow-x-hidden">
       <div className="app-glow-1" aria-hidden="true" />
       <div className="app-glow-2" aria-hidden="true" />
       <div className="app-glow-3" aria-hidden="true" />

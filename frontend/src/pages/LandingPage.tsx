@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "./LandingPage.css";
 
 import aaveLogo      from "../assets/brands/aave.png";
+import LogoIcon      from "../assets/icon/logo.png";
 import uniswapLogo   from "../assets/brands/uniswap.png";
 import morphoLogo    from "../assets/brands/morpho.png";
 import aerodromeLogo from "../assets/brands/aerodrome.png";
@@ -202,8 +203,8 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
       {/* ── NAV ── */}
       <header className={`lp-nav-wrap ${isScrolled ? "is-scrolled" : ""}`}>
         <div className="lp-nav">
-          <button className="lp-wordmark" onClick={() => scrollToSection("product")}>
-            PAN!K
+          <button className="lp-wordmark flex items-center" onClick={() => scrollToSection("product")}>
+            <img src={LogoIcon} alt="Panik" className="h-[24px] w-auto object-contain" />
           </button>
           <nav className="lp-nav-links" aria-label="Landing sections">
             {NAV_LINKS.map((link) => (
@@ -225,9 +226,9 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
           <div className="lp-hero-content" data-reveal>
 
             <h1>
-              ONE BUTTON.
+              ONE BUTTON
               <br />
-              <span>TOTAL EXIT.</span>
+              <span>TOTAL EXIT</span>
             </h1>
             <p className="lp-hero-copy">
               Exit all your DeFi positions across multiple protocols in a single{" "}
@@ -447,8 +448,8 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
           <div className="lp-section-head">
             <p className="lp-overline">The Guarantee</p>
             <h2>
-              ONE TRANSACTION.<br />
-              ZERO PARTIAL STATES.
+              ONE TRANSACTION<br />
+              ZERO PARTIAL STATES
             </h2>
             <p>
               No protocol in DeFi today lets you exit all positions across multiple protocols, in the
@@ -458,7 +459,9 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
           </div>
           <div className="lp-orb-shell" aria-hidden="true">
             <div className="lp-orb-core" />
-            <span>PAN!K</span>
+            <span className="flex items-center">
+              <img src={LogoIcon} alt="Panik" className="h-[52px] w-auto object-contain" />
+            </span>
           </div>
         </section>
 
@@ -470,7 +473,7 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
             <p className="lp-overline">The Guarantee</p>
             <h2>
               GET OUT BEFORE<br />
-              <span>IT'S TOO LATE.</span>
+              <span>IT'S TOO LATE</span>
             </h2>
             <p>
               The market doesn't care about your exit queue. Panik does. One transaction. Total exit.
@@ -521,7 +524,9 @@ export function LandingPage({ onUsePanik }: LandingPageProps) {
       {/* ── FOOTER ── */}
       <footer className="lp-footer">
         <div className="lp-footer-inner">
-          <p className="lp-footer-brand">PAN!K</p>
+          <div className="lp-footer-brand flex items-center justify-center">
+            <img src={LogoIcon} alt="Panik" className="h-[20px] w-auto object-contain" />
+          </div>
           <p className="lp-footer-copy">
             One button. Total exit. Built on Base.{" "}
             <span style={{ opacity: 0.5 }}>&copy; {new Date().getFullYear()} Panik. All rights reserved.</span>

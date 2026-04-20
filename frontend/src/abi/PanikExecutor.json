@@ -279,8 +279,13 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "assets",
+        "name": "aaveAssets",
         "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "uniswapTokenIds",
+        "type": "uint256[]"
       }
     ],
     "name": "atomicExit",
@@ -391,12 +396,17 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "assets",
+        "name": "aaveAssets",
         "type": "address[]"
       },
       {
         "internalType": "uint256[]",
         "name": "amounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "uniswapTokenIds",
         "type": "uint256[]"
       }
     ],

@@ -17,6 +17,7 @@
     "approve:atokens": "hardhat run scripts/approve-atokens.ts --network baseSepolia",
     "oracle:set-prices": "hardhat run scripts/set-mock-prices.ts --network baseSepolia",
     "deploy:base-sepolia": "hardhat run scripts/deploy.ts --network baseSepolia",
+    "relink:adapters": "hardhat run scripts/relink-adapters.ts --network baseSepolia",
     "export:abi": "ts-node scripts/export-abi.ts"
   },
   "keywords": [

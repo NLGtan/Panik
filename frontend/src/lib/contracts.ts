@@ -122,7 +122,8 @@ export const panikExecutorAbi = [
     stateMutability: "nonpayable",
     name: "atomicExit",
     inputs: [
-      { name: "assets", type: "address[]" },
+      { name: "aaveAssets", type: "address[]" },
+      { name: "uniswapTokenIds", type: "uint256[]" },
     ],
     outputs: [],
   },
@@ -131,8 +132,9 @@ export const panikExecutorAbi = [
     stateMutability: "nonpayable",
     name: "partialExit",
     inputs: [
-      { name: "assets", type: "address[]" },
+      { name: "aaveAssets", type: "address[]" },
       { name: "amounts", type: "uint256[]" },
+      { name: "uniswapTokenIds", type: "uint256[]" },
     ],
     outputs: [],
   },

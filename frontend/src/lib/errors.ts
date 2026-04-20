@@ -24,6 +24,8 @@ const mappedErrors: Record<string, string> = {
     "USDC allowance to PANIK Executor is missing or too low. Click Enable PANIK once again.",
   "0xfb8f41b2":
     "A required token allowance is missing (usually aToken). Complete Enable PANIK once before confirming exit.",
+  "0x0b9082ff":
+    "Adapter is not linked to the active PANIK Executor. Re-link adapter executors, then retry.",
   MissingSwapRoute: "At least one selected asset is missing a required swap route.",
   SlippageExceeded:
     "Swap output was below the minimum floor. Try fewer positions or retry later.",

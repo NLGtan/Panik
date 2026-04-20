@@ -673,9 +673,12 @@ function CoreApp() {
     const selectedAaveAssets = willExitPositions
       .filter(isAavePosition)
       .map((p) => p.asset.address);
+    const selectedUniswapTokenIds = willExitPositions
+      .filter(isUniswapPosition)
+      .map((p) => p.tokenId);
 
-    if (selectedAaveAssets.length === 0) {
-      setErrorMessage("No eligible Aave positions selected.");
+    if (selectedAaveAssets.length === 0 && selectedUniswapTokenIds.length === 0) {
+      setErrorMessage("No eligible positions selected.");
       return;
     }
 
@@ -689,7 +692,7 @@ function CoreApp() {
         address: appConfig.panikExecutor,
         abi: panikExecutorAbi,
         functionName: "atomicExit",
-        args: [selectedAaveAssets],
+        args: [selectedAaveAssets, selectedUniswapTokenIds],
         account: address,
       });
 
@@ -697,7 +700,7 @@ function CoreApp() {
         address: appConfig.panikExecutor,
         abi: panikExecutorAbi,
         functionName: "atomicExit",
-        args: [selectedAaveAssets],
+        args: [selectedAaveAssets, selectedUniswapTokenIds],
         account: address,
       });
 
@@ -708,6 +711,7 @@ function CoreApp() {
       setTxSummary({
         hash,
         selectedAaveAssets,
+        selectedUniswapTokenIds,
         functionName: "atomicExit",
         gasEstimate: adjustedGas,
       });
@@ -1203,12 +1207,16 @@ function CoreApp() {
           <div className="summary-row">
             <span>Positions exited</span>
             <strong>
-              {txSummary.selectedAaveAssets.length}
+              {txSummary.selectedAaveAssets.length + txSummary.selectedUniswapTokenIds.length}
             </strong>
           </div>
           <div className="summary-row">
             <span>Aave assets</span>
             <strong>{txSummary.selectedAaveAssets.length}</strong>
+          </div>
+          <div className="summary-row">
+            <span>Uniswap positions</span>
+            <strong>{txSummary.selectedUniswapTokenIds.length}</strong>
           </div>
           <div className="summary-row">
             <span>Gas (estimated)</span>

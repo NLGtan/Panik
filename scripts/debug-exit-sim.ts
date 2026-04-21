@@ -95,7 +95,7 @@ async function main(): Promise<void> {
 
   for (const testCase of cases) {
     try {
-      await panik.atomicExit.staticCall(testCase.assets);
+      await panik.atomicExit.staticCall(testCase.assets, []);
       console.log(`[OK] ${testCase.label}`);
     } catch (error) {
       const data = extractRevertData(error);
@@ -107,6 +107,9 @@ async function main(): Promise<void> {
       console.log(`  decoded : ${hint ?? "unknown"}`);
       if (shortMessage) {
         console.log(`  msg     : ${shortMessage}`);
+      }
+      if (!selector) {
+        console.log(`  raw     :`, error);
       }
     }
   }

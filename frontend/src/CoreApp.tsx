@@ -103,7 +103,7 @@ function CoreApp() {
   const { data: walletClient } = useWalletClient({ chainId: appConfig.chainId });
   const { isPending: isConnecting } = useConnect();
   const { disconnectAsync, isPending: isDisconnecting } = useDisconnect();
-  const { switchChain } = useSwitchChain();
+  const { switchChain, switchChainAsync } = useSwitchChain();
   const navigate = useNavigate();
   const { fetchUniswapPositions } = useUniswapPositions();
 
@@ -659,6 +659,19 @@ function CoreApp() {
       setErrorMessage("Wallet client is not ready.");
       return;
     }
+    try {
+      const walletChainId = await walletClient.getChainId();
+      if (walletChainId !== appConfig.chainId) {
+        await switchChainAsync({ chainId: appConfig.chainId });
+        setErrorMessage("Switched to Base Sepolia. Please confirm exit again.");
+        return;
+      }
+    } catch (error) {
+      setErrorMessage(
+        `Please switch your wallet to Base Sepolia (chain 84532) and retry. ${mapContractError(error)}`
+      );
+      return;
+    }
     if (willExitPositions.length === 0) {
       setErrorMessage("No eligible positions selected.");
       return;
@@ -702,7 +715,6 @@ function CoreApp() {
         functionName: "atomicExit",
         args: [selectedAaveAssets, selectedUniswapTokenIds],
         account: address,
-        chain: walletClient.chain,
         gas: manualGasLimit,
       });
 
@@ -726,7 +738,7 @@ function CoreApp() {
       setIsSubmitting(false);
       setSubmitProgress(null);
     }
-  }, [address, approvals, publicClient, walletClient, willExitPositions]);
+  }, [address, approvals, publicClient, switchChainAsync, walletClient, willExitPositions]);
 
   useEffect(() => {
     if (
@@ -970,7 +982,7 @@ function CoreApp() {
               )}
               {isConnected && wrongChain && !isLoadingEligibility && (
                 <div className="table-empty">
-                  Switch to Base to continue.
+                  Switch to Base Sepolia to continue.
                 </div>
               )}
               {isConnected && !wrongChain && isEoa === false && !isLoadingEligibility && (

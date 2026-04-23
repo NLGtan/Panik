@@ -31,6 +31,10 @@ const mappedErrors: Record<string, string> = {
     "Swap output was below the minimum floor. Try fewer positions or retry later.",
   "already known":
     "This approval/transaction is already pending in the network mempool. Please wait a few seconds and retry.",
+  "invalid chain ID":
+    "Wallet network mismatch. Switch MetaMask to Base Sepolia (chain 84532) and retry.",
+  "invalid chain id":
+    "Wallet network mismatch. Switch MetaMask to Base Sepolia (chain 84532) and retry.",
   "execution reverted":
     "Transaction reverted on-chain. This may happen when supply/borrow amounts are very high or liquidity is insufficient.",
 };

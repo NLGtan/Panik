@@ -91,7 +91,7 @@ export function WalletPanel(props: WalletPanelProps) {
       {wrongChain && (
         <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 flex items-center justify-between mt-4 mx-9">
           <p className="text-red-400 text-xs font-medium uppercase tracking-wider">
-            Wrong network — switch to Base to continue.
+            Wrong network — switch to Base Sepolia to continue.
           </p>
           <button
             onClick={onSwitchNetwork}

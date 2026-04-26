@@ -1,4 +1,4 @@
-import { shortAddress } from "../lib/format";
+
 import { Link } from "react-router-dom";
 import LogoIcon from "../assets/icon/logo.png";
 

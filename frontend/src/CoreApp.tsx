@@ -826,9 +826,7 @@ function CoreApp() {
                   ) : null}
                 </div>
                 <div className="market-strip-worth">
-                  <span>Net worth</span>
-                  <strong>{formatUsd(totalPortfolioValue)}</strong>
-                  <span>Last scan {lastScannedLabel}</span>
+                  <span className="text-sm">Last scan {lastScannedLabel}</span>
                 </div>
               </div>
               <Button

@@ -61,7 +61,6 @@ body {
   z-index: 100;
   background: transparent;
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-bottom: none;
   transition: background-color 0.3s ease;
 }

@@ -112,8 +112,8 @@ a:hover { color: var(--text); }
   top: 0;
   z-index: 900;
   isolation: isolate;
-  backdrop-filter: blur(18px) saturate(165%);
-  -webkit-backdrop-filter: blur(18px) saturate(165%);
+  --header-blur: blur(18px) saturate(165%);
+  backdrop-filter: var(--header-blur);
   background: transparent;
   border-bottom: 0;
 }

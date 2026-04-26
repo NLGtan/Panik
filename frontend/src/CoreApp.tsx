@@ -1039,7 +1039,23 @@ function CoreApp() {
             </Button>
             <p className="rail-note">Review and choose manually.</p>
 
-            <Separator className="rail-divider" />
+            {/* ── Flash Loan toggle (disabled / coming soon) ── */}
+            <div className="flash-loan-row">
+              <div className="flash-loan-inner">
+                <div className="flash-loan-left">
+                  <div className="flash-loan-text">
+                    <span className="flash-loan-label">Flash Loan</span>
+                    <span className="flash-loan-sub">Uncollateralized instant liquidity</span>
+                  </div>
+                </div>
+                <div className="flash-loan-right">
+                  <span className="flash-loan-badge">COMING SOON</span>
+                  <div className="flash-loan-toggle" aria-disabled="true">
+                    <div className="flash-loan-toggle-thumb" />
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="rail-mix-head">
               <Badge variant="outline" className="rail-mix-badge">

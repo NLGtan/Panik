@@ -3,20 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Azedo';
-  src: url('./assets/fonts/Azedo-Bold.otf') format('opentype');
-  font-weight: bold;
-  ascent-override: 75%;
-  descent-override: 0%;
-  line-gap-override: 0%;
-  /* Only use Azedo for Latin letters — it lacks glyphs for numbers, punctuation, and symbols */
-  unicode-range: U+0041-005A, U+0061-007A;
-}
 
-.font-azedo {
-  font-family: 'Azedo', 'Barlow Condensed', sans-serif;
-}
 
 /* ═══════════════════════════════════════════════
    PANIK — Design System
@@ -35,8 +22,8 @@
   --amber: #f59e0b;
   --red: #ef4444;
   --red-solid: #dc2626;
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  --font: "Montserrat", sans-serif;
+  --mono: "Montserrat", sans-serif;
 }
 
 *, *::before, *::after {
@@ -50,7 +37,7 @@ html, body, #root {
 }
 
 .core-app-root h1, .core-app-root h2, .core-app-root h3, .core-app-root h4, .core-app-root h5, .core-app-root h6 {
-  font-family: 'Azedo', 'Barlow Condensed', sans-serif;
+  font-family: "Montserrat", sans-serif;
   letter-spacing: 0.05em;
   font-weight: bold;
   text-transform: uppercase;
@@ -127,7 +114,7 @@ a:hover { color: var(--text); }
 
 /* ── Core Logo ── */
 .core-logo-img {
-  height: 34px;
+  height: 26px;
   width: auto;
   object-fit: contain;
 }
@@ -665,6 +652,102 @@ a:hover { color: var(--text); }
   flex: 1;
   background: var(--border) !important;
   height: 1px !important;
+}
+
+/* ── Flash Loan toggle row ── */
+.flash-loan-row {
+  padding: 12px 0;
+  border-top: 1px solid #1e1e1e;
+  border-bottom: 1px solid #1e1e1e;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.flash-loan-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flash-loan-left {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.flash-loan-icon-box {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 7px;
+  flex-shrink: 0;
+}
+
+.flash-loan-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.flash-loan-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.3;
+}
+
+.flash-loan-sub {
+  font-size: 10px;
+  color: #444;
+  line-height: 1.3;
+}
+
+.flash-loan-right {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.flash-loan-badge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #c7963a;
+  background: #1e1608;
+  border: 1px solid #3d2e0d;
+  border-radius: 4px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  animation: flashLoanPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes flashLoanPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.flash-loan-toggle {
+  position: relative;
+  width: 38px;
+  height: 21px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 11px;
+  cursor: not-allowed;
+  flex-shrink: 0;
+}
+
+.flash-loan-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: #404040;
+  border-radius: 50%;
 }
 
 .rail-divider {

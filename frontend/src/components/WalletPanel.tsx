@@ -34,6 +34,11 @@ export function WalletPanel(props: WalletPanelProps) {
   const wrongChain = connected && chainId !== requiredChainId;
   const eoaBlocked = connected && isEoa === false;
 
+  /** Compact address: 0xFE…62 */
+  const compactAddr = address
+    ? `${address.slice(0, 4)}…${address.slice(-2)}`
+    : "—";
+
   return (
     <>
       <header className="wallet-sticky-header w-full flex justify-between items-center h-24 px-9 pt-4">
@@ -42,15 +47,15 @@ export function WalletPanel(props: WalletPanelProps) {
             to={logoHref}
             className="flex items-center transition-opacity hover:opacity-90"
           >
-            <img src={LogoIcon} alt="Panik" className="h-[28px] w-auto object-contain" />
+            <img src={LogoIcon} alt="Panik" className="core-logo-img" />
           </Link>
         ) : (
           <div className="flex items-center">
-            <img src={LogoIcon} alt="Panik" className="h-[28px] w-auto object-contain" />
+            <img src={LogoIcon} alt="Panik" className="core-logo-img" />
           </div>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="core-wallet-group">
           {!connected ? (
             <button
               onClick={onConnect}
@@ -60,28 +65,14 @@ export function WalletPanel(props: WalletPanelProps) {
               {connectLoading ? "Connecting..." : "Connect wallet"}
             </button>
           ) : (
-            <div className="flex items-center gap-2">
-              {wrongChain && (
-                <div className="flex items-center gap-2 h-[44px] px-[18px] rounded-full border border-[#333] bg-[#111]">
-                  <div className="w-2 h-2 rounded-full bg-red-500" />
-                  <span className="font-medium text-[15px] leading-none mt-0.5 text-gray-200">
-                    Wrong Network
-                  </span>
-                </div>
-              )}
-              
-              <div className="flex items-center h-[44px] px-[18px] rounded-full border border-[#333] bg-[#111]">
-                <span className="text-[15px] font-medium text-gray-200 font-mono tracking-tight">
-                  {address ? shortAddress(address) : "—"}
-                </span>
-              </div>
-
+            <div className="core-addr-pill">
+              <span className="core-addr-text">{compactAddr}</span>
               <button
                 onClick={onDisconnect}
                 disabled={disconnectLoading}
-                className="flex items-center justify-center h-[44px] px-[20px] rounded-full font-semibold text-[15px] tracking-tight bg-transparent text-gray-400 hover:text-white hover:bg-[#222] border border-transparent hover:border-[#333] transition-colors"
-               >
-                {disconnectLoading ? "Disconnecting..." : "Disconnect"}
+                className="core-addr-disconnect"
+              >
+                {disconnectLoading ? "..." : "Disconnect"}
               </button>
             </div>
           )}

@@ -810,7 +810,21 @@ function CoreApp() {
           <div className="market-strip">
             <div className="market-strip-head">
               <div>
-                <h2 className="market-strip-title">Portfolio Overview</h2>
+                <div className="flex items-center gap-3">
+                  <h2 className="market-strip-title">Portfolio Overview</h2>
+                  {/* Network indicator pill */}
+                  {isConnected && wrongChain ? (
+                    <div className="core-net-pill core-net-pill--error" style={{ height: "26px", padding: "0 10px" }}>
+                      <span className="core-net-dot core-net-dot--error" />
+                      <span className="core-net-label core-net-label--error">Unsupported</span>
+                    </div>
+                  ) : isConnected && !wrongChain ? (
+                    <div className="core-net-pill core-net-pill--ok" style={{ height: "26px", padding: "0 10px" }}>
+                      <span className="core-net-dot core-net-dot--ok" />
+                      <span className="core-net-label core-net-label--ok">Base</span>
+                    </div>
+                  ) : null}
+                </div>
                 <div className="market-strip-worth">
                   <span>Net worth</span>
                   <strong>{formatUsd(totalPortfolioValue)}</strong>

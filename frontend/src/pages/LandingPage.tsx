@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { shortAddress } from "../lib/format";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { shortAddress, mobileShortAddress } from "../lib/format";
 import "./LandingPage.css";
 
 import aaveLogo      from "../assets/brands/aave.png";
@@ -8,8 +8,6 @@ import uniswapLogo   from "../assets/brands/uniswap.png";
 import morphoLogo    from "../assets/brands/morpho.png";
 import aerodromeLogo from "../assets/brands/aerodrome.png";
 import baseLogo      from "../assets/brands/base.png";
-import celoLogo      from "../assets/brands/celo.png";
-import minipayLogo   from "../assets/brands/minipay.png";
 
 type SectionId = "product" | "how-it-works" | "features" | "pricing" | "faq";
 
@@ -60,8 +58,6 @@ const HERO_LOGOS: Array<{ name: string; src: string }> = [
   { name: "Morpho",    src: morphoLogo    },
   { name: "Aerodrome", src: aerodromeLogo },
   { name: "Base",      src: baseLogo      },
-  { name: "Celo",      src: celoLogo      },
-  { name: "MiniPay",   src: minipayLogo   },
 ];
 
 const CRISIS_STATS: CrisisStat[] = [
@@ -170,6 +166,26 @@ export function LandingPage({
   const prefersReducedMotion = useReducedMotionPreference();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  // Close mobile drawer on outside click
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        drawerRef.current &&
+        !drawerRef.current.contains(e.target as Node) &&
+        hamburgerRef.current &&
+        !hamburgerRef.current.contains(e.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -219,6 +235,8 @@ export function LandingPage({
           <button className="lp-wordmark flex items-center" onClick={() => scrollToSection("product")}>
             <img src={LogoIcon} alt="Panik" className="h-[24px] w-auto object-contain" />
           </button>
+
+          {/* Desktop nav links */}
           <nav className="lp-nav-links" aria-label="Landing sections">
             {NAV_LINKS.map((link) => (
               <button key={link.section} className="lp-nav-link" onClick={() => scrollToSection(link.section)}>
@@ -226,27 +244,80 @@ export function LandingPage({
               </button>
             ))}
           </nav>
-          {isConnected ? (
-            <div className="flex items-center gap-2">
-              <div className="flex items-center h-[38px] px-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
-                <span className="text-[14px] font-medium text-white/90 font-mono tracking-tight">
+
+          {/* Right side: wallet pill or connect button + hamburger */}
+          <div className="lp-nav-right">
+            {isConnected ? (
+              <div className="lp-wallet-pill">
+                <span className="lp-wallet-dot" aria-label="Connected" />
+                <span className="lp-wallet-addr lp-wallet-addr--desktop">
                   {address ? shortAddress(address) : "—"}
                 </span>
+                <span className="lp-wallet-addr lp-wallet-addr--mobile">
+                  {address ? mobileShortAddress(address) : "—"}
+                </span>
+                <button
+                  className="lp-wallet-disconnect lp-wallet-disconnect--desktop"
+                  onClick={onDisconnect}
+                  title="Disconnect Wallet"
+                >
+                  Disconnect
+                </button>
               </div>
-              <button
-                onClick={onDisconnect}
-                className="flex items-center justify-center h-[38px] px-[16px] rounded-full font-medium text-[14px] tracking-tight bg-transparent text-white/50 hover:text-white hover:bg-white/10 border border-transparent transition-colors"
-                title="Disconnect Wallet"
-              >
-                Disconnect
+            ) : (
+              <button className="lp-btn lp-btn-connect" onClick={onUsePanik} disabled={isConnecting}>
+                {isConnecting ? "Connecting…" : "Connect wallet"}
               </button>
-            </div>
-          ) : (
-            <button className="lp-btn lp-btn-connect" onClick={onUsePanik} disabled={isConnecting}>
-              {isConnecting ? "Connecting…" : "Connect wallet"}
+            )}
+
+            {/* Hamburger — mobile only */}
+            <button
+              ref={hamburgerRef}
+              className={`lp-hamburger ${mobileMenuOpen ? "is-open" : ""}`}
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span />
+              <span />
+              <span />
             </button>
-          )}
+          </div>
         </div>
+
+        {/* Mobile drawer */}
+        {mobileMenuOpen && (
+          <div className="lp-mobile-drawer" ref={drawerRef}>
+            <nav className="lp-mobile-nav" aria-label="Mobile navigation">
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link.section}
+                  className="lp-mobile-nav-link"
+                  onClick={() => {
+                    scrollToSection(link.section);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
+            {isConnected && onDisconnect && (
+              <>
+                <div className="lp-mobile-divider" />
+                <button
+                  className="lp-mobile-disconnect"
+                  onClick={() => {
+                    onDisconnect();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Disconnect
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </header>
 
       <main className="lp-main">

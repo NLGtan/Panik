@@ -8,8 +8,9 @@ import uniswapLogo   from "../assets/brands/uniswap.png";
 import morphoLogo    from "../assets/brands/morpho.png";
 import aerodromeLogo from "../assets/brands/aerodrome.png";
 import baseLogo      from "../assets/brands/base.png";
+import demoVideo     from "../assets/video/aave+uniswap.mp4";
 
-type SectionId = "product" | "how-it-works" | "features" | "pricing" | "faq";
+type SectionId = "product" | "demo" | "how-it-works" | "features" | "pricing" | "faq";
 
 interface LandingPageProps {
   onUsePanik: () => void;
@@ -40,6 +41,7 @@ interface FaqItem {
 
 const SECTION_IDS: Record<SectionId, string> = {
   product:        "landing-product",
+  demo:           "landing-demo",
   "how-it-works": "landing-how-it-works",
   features:       "landing-features",
   pricing:        "landing-pricing",
@@ -47,6 +49,7 @@ const SECTION_IDS: Record<SectionId, string> = {
 };
 
 const NAV_LINKS: Array<{ label: string; section: SectionId }> = [
+  { label: "Demo",         section: "demo" },
   { label: "How It Works", section: "how-it-works" },
   { label: "Features",     section: "features" },
   { label: "FAQ",          section: "faq" },
@@ -396,6 +399,28 @@ export function LandingPage({
                 <p className="lp-problem-note">{stat.note}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        {/* ── DEMO / SEE IT IN ACTION ── */}
+        <section className="lp-section lp-demo" id={SECTION_IDS.demo} data-reveal>
+          <div className="lp-section-head">
+            <p className="lp-overline">See It In Action</p>
+            <h2>Escape In Seconds</h2>
+            <p>
+              Watch how PANIK unwinds complex DeFi positions and swaps to USDC in a single atomic transaction.
+            </p>
+          </div>
+          <div className="lp-demo-container">
+            <video 
+              src={demoVideo} 
+              controls 
+              muted
+              playsInline
+              className="lp-demo-video"
+            >
+              Your browser does not support the video tag.
+            </video>
           </div>
         </section>
 

@@ -85,9 +85,9 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 32px 14px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 32px;
   transition: padding 0.3s ease;
 }
 
@@ -104,7 +104,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  flex-shrink: 0;
+  justify-self: start;
   padding: 0;
   line-height: 1;
   transition: font-size 0.3s ease;
@@ -117,8 +117,7 @@ body {
 .lp-nav-links {
   display: flex;
   gap: 36px;
-  flex: 1;
-  justify-content: center;
+  justify-self: center;
 }
 
 .lp-nav-link {
@@ -156,8 +155,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
-  margin-left: auto;
+  justify-self: end;
 }
 
 /* ── Wallet pill ────────────────────────────────────────── */
@@ -619,6 +617,31 @@ body {
   font-size: 15px;
   color: rgba(255,255,255,0.55);
   line-height: 1.5;
+}
+
+/* ── Demo Section ───────────────────────────────────────── */
+.lp-demo { background: var(--bg); padding-top: 0; }
+.lp-demo-container {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 64px rgba(232, 124, 42, 0.05);
+  aspect-ratio: 16 / 9;
+  background: var(--bg-card);
+  display: flex;
+}
+.lp-demo-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Disable volume controls but keep timeline for skipping */
+.lp-demo-video::-webkit-media-controls-volume-slider,
+.lp-demo-video::-webkit-media-controls-mute-button {
+  display: none !important;
 }
 
 /* ── Steps Section ──────────────────────────────────────── */
@@ -1212,6 +1235,8 @@ body {
   .lp-wallet-disconnect--desktop { display: none; }
 
   .lp-nav {
+    display: flex;
+    justify-content: space-between;
     padding: 14px 20px;
   }
   .lp-nav-wrap.is-scrolled .lp-nav {

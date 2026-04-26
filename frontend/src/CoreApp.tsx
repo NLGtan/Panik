@@ -44,7 +44,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { cn } from "@/lib/utils";
 import { mapContractError } from "./lib/errors";
 import { formatUsd } from "./lib/format";
@@ -753,7 +753,7 @@ function CoreApp() {
   }, [autoSubmitOnScreen3, isSubmitting, screen, submitExit, willExitPositions.length]);
 
   return (
-    <div className="core-app-root flex flex-col min-h-screen w-full relative overflow-x-hidden">
+    <div className="core-app-root flex flex-col min-h-screen w-full relative overflow-x-clip">
       <div className="app-glow-1" aria-hidden="true" />
       <div className="app-glow-2" aria-hidden="true" />
       <div className="app-glow-3" aria-hidden="true" />
@@ -905,7 +905,7 @@ function CoreApp() {
 
               {/* Table */}
               {hasScanned && dashboardRows.length > 0 && (
-                <ScrollArea className="positions-scroll">
+                <div className="positions-scroll">
                   <Table className="positions-table">
                     <TableHeader>
                       <TableRow className="table-header-row">
@@ -968,7 +968,7 @@ function CoreApp() {
                       ))}
                     </TableBody>
                   </Table>
-                </ScrollArea>
+                </div>
               )}
 
               {hasScanned && !isLoadingEligibility && dashboardRows.length === 0 && (

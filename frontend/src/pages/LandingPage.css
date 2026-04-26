@@ -2,7 +2,23 @@
    PAN!K Landing Page — Figma-accurate styles
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600&family=Bebas+Neue&display=swap');
+
+/* ── Custom Azedo Display Font ─────────────────────────── */
+@font-face {
+  font-family: 'Azedo';
+  src: url('../assets/fonts/Azedo-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Azedo';
+  src: url('../assets/fonts/Azedo-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ── Reset & Tokens ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,9 +36,9 @@
   --border:    rgba(255,255,255,0.08);
   --border-o:  rgba(232,124,42,0.35);
 
-  --font-display: 'Montserrat', sans-serif;
-  --font-body:    'Montserrat', sans-serif;
-  --font-numbers: 'Montserrat', sans-serif;
+  --font-display: 'Azedo', 'Barlow Condensed', sans-serif;
+  --font-body:    'Barlow', sans-serif;
+  --font-numbers: 'Bebas Neue', sans-serif;
 
   --radius: 12px;
   --radius-lg: 16px;
@@ -357,6 +373,7 @@ body {
 .lp-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   border-radius: 30px;
   font-family: var(--font-body);
@@ -373,8 +390,12 @@ body {
   background: var(--orange);
   color: var(--white);
   font-family: var(--font-display);
+  font-weight: 700;
   font-size: 18px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  padding-top: 9px;
+  padding-bottom: 15px;
 }
 .lp-btn-primary:hover { background: #f08c3a; }
 
@@ -576,7 +597,7 @@ body {
 .lp-problem-card:last-child { border-right: none; }
 
 .lp-problem-date {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -812,7 +833,7 @@ body {
   border: none;
   border-radius: 30px;
   padding: 18px;
-  font-family: var(--font-display);
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.08em;

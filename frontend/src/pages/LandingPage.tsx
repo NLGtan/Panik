@@ -84,7 +84,7 @@ const STEP_CARDS: StepCard[] = [
     icon: "▣",
     title: "Connect Wallet",
     description:
-      "Connect Via Coinbase Smart Wallet, MetaMask, Or WalletConnect. Panik Automatically Scans All Open Positions Across Supported Protocols On Base.",
+      "Connect Via Coinbase Smart Wallet, MetaMask, Or WalletConnect. PANIK Automatically Scans All Open Positions Across Supported Protocols On Base.",
   },
   {
     step: "02",
@@ -339,11 +339,11 @@ export function LandingPage({
             <div className="lp-hero-actions">
               {isConnected ? (
                 <button className="lp-btn lp-btn-primary" onClick={onLaunchApp}>
-                  Use Panik &nbsp;›
+                  Use PANIK&nbsp;›
                 </button>
               ) : (
                 <button className="lp-btn lp-btn-primary" onClick={onUsePanik} disabled={isConnecting}>
-                  {isConnecting ? "Connecting…" : "Use Panik \u00a0›"}
+                  {isConnecting ? "Connecting…" : "Use PANIK\u00a0›"}
                 </button>
               )}
               <button className="lp-btn lp-btn-secondary" onClick={() => scrollToSection("how-it-works")}>
@@ -377,7 +377,7 @@ export function LandingPage({
         <section className="lp-section lp-problem" data-reveal>
           <div className="lp-section-head">
             <p className="lp-overline">The Problem Is Real</p>
-            <h2>Markets Don't Wait For You</h2>
+            <h2>Markets Do Not Wait For You</h2>
             <p>
               Three historic crises. One pattern: DeFi users who couldn't exit fast enough paid the
               price. Manual exits take 15–30 minutes. Crisis windows close in seconds.
@@ -429,7 +429,7 @@ export function LandingPage({
         <section className="lp-section lp-features" id={SECTION_IDS.features}>
           <div className="lp-section-head" data-reveal>
             <p className="lp-overline">Core Features</p>
-            <h2>Built For The Crash,<br />Not The Calm</h2>
+            <h2>Built For The Crash<br />Not The Calm</h2>
           </div>
 
           {/* Dashboard card — full width */}
@@ -489,7 +489,7 @@ export function LandingPage({
                   </tr>
                 </tbody>
               </table>
-              <button className="lp-dash-exit-btn" onClick={onUsePanik}>
+              <button className="lp-dash-exit-btn">
                 EXIT ALL POSITIONS →
               </button>
             </div>
@@ -560,7 +560,7 @@ export function LandingPage({
             </h2>
             <p>
               No protocol in DeFi today lets you exit all positions across multiple protocols, in the
-              correct sequence, in a single atomic transaction. Panik does. And if anything fails,
+              correct sequence, in a single atomic transaction. PANIK does. And if anything fails,
               the entire transaction reverts — you never end up stuck between debt and collateral.
             </p>
           </div>
@@ -580,16 +580,16 @@ export function LandingPage({
             <p className="lp-overline">The Guarantee</p>
             <h2>
               GET OUT BEFORE<br />
-              <span>IT'S TOO LATE</span>
+              <span>IT IS TOO LATE</span>
             </h2>
             <p>
-              The market doesn't care about your exit queue. Panik does. One transaction. Total exit.
+              The market doesn't care about your exit queue. PANIK does. One transaction. Total exit.
               Every time.
             </p>
           </div>
           <div className="lp-hero-actions">
             <button className="lp-btn lp-btn-primary" onClick={onUsePanik}>
-              Use Panik &nbsp;›
+              Use PANIK&nbsp;›
             </button>
             <button className="lp-btn lp-btn-secondary" onClick={() => scrollToSection("faq")}>
               Read the Docs
@@ -636,7 +636,7 @@ export function LandingPage({
           </div>
           <p className="lp-footer-copy">
             One button. Total exit. Built on Base.{" "}
-            <span style={{ opacity: 0.5 }}>&copy; {new Date().getFullYear()} Panik. All rights reserved.</span>
+            <span style={{ opacity: 0.5 }}>&copy; {new Date().getFullYear()} PANIK. All rights reserved.</span>
           </p>
           <div className="lp-footer-links">
             {(["Docs", "Github", "Twitter", "Terms"] as const).map((label) => (

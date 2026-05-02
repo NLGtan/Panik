@@ -12,3 +12,17 @@ dist/
 *.key
 secrets.json
 agent/
+
+# One-off / personal scripts
+scripts/tmp-*
+scripts/debug-*
+scripts/diag-*
+scripts/fix-*
+scripts/check-*
+scripts/inspect-*
+scripts/swap-*
+scripts/unwrap-*
+scripts/wrap-*
+scripts/buy-*
+scripts/mint-*
+scripts/quote-*
